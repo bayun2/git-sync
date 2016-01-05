@@ -1,0 +1,25 @@
+{
+  "name": "git-sync",
+  "version": "1.0.0",
+  "bin": {
+    "gitsync": "./bin/gitsync"
+  },
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bayun2/git-sync.git"
+  },
+  "author": "rwt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bayun2/git-sync/issues"
+  },
+  "homepage": "https://github.com/bayun2/git-sync#readme",
+  "dependencies": {
+    "optimist": "~0.6.1"
+  }
+}

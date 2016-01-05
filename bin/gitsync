@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+var execSync = require('child_process').execSync;
+var argv = require('optimist').argv;
+var cwd = process.cwd();
+var defaultOption = {
+  cwd: cwd,
+  stdio: 'inherit'
+};
+
+var curBranch = execSync('git symbolic-ref HEAD').toString().trim().replace('refs/heads/','');
+var privateBranch = 'dev/rwt';
+var dailyBranch = 'daily/' + argv['_'][0];
+
+execSync('git add .');
+try {
+  execSync('git commit -am "git sync"');
+} catch (e) {
+
+}
+execSync('rm -rf build');
+execSync('git checkout ' + privateBranch);
+execSync('git pull');
+execSync('git merge ' + curBranch);
+execSync('git add .');
+try {
+  execSync('git commit -am "merge ' + curBranch + '"');
+} catch (e) {
+
+}
+execSync('git push -u origin ' + privateBranch);
+execSync('git checkout master');
+execSync('git pull');
+execSync('git checkout ' + dailyBranch);
+execSync('git pull');
+execSync('git merge ' + privateBranch);
