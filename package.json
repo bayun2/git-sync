@@ -1,6 +1,6 @@
 {
   "name": "gitsynctodaily",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bin": {
     "gitsync": "./bin/gitsync"
   },
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/bayun2/git-sync#readme",
   "dependencies": {
-    "optimist": "~0.6.1"
+    "optimist": "~0.6.1",
+    "semver": "~5.1.0"
   }
 }

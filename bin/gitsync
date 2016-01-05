@@ -1,16 +1,25 @@
 #!/usr/bin/env node
 var execSync = require('child_process').execSync;
 var argv = require('optimist').argv;
+var semver = require('semver');
 var cwd = process.cwd();
 var defaultOption = {
   cwd: cwd,
   stdio: 'inherit'
 };
-
+var targetVersion = argv['_'][0];
+if (!semver.valid(targetVersion)) {
+  console.error('请输出daily版本号');
+  process.exit(0);
+}
 var curBranch = execSync('git symbolic-ref HEAD').toString().trim().replace('refs/heads/','');
-var privateBranch = 'dev/rwt';
-var dailyBranch = 'daily/' + argv['_'][0];
+var privateBranch = 'dev/rwt-' + targetVersion;
+var dailyBranch = 'daily/' + targetVersion;
 
+if (curBranch == privateBranch || curBranch == dailyBranch) {
+  console.error('当前分支为个人分支或者daily分支，不是开发分支');
+  process.exit(0);
+}
 execSync('git add .');
 try {
   execSync('git commit -am "git sync"');
@@ -18,9 +27,14 @@ try {
 
 }
 execSync('rm -rf build');
-execSync('git checkout ' + privateBranch);
+try {
+  execSync('git checkout ' + privateBranch);
+} catch(e) {
+  execSync('git checkout -b ' + privateBranch);
+  execSync('git push -u -f origin ' + privateBranch);
+}
 execSync('git pull');
-execSync('git merge ' + curBranch);
+execSync('git merge ' + curBranch, defaultOption);
 execSync('git add .');
 try {
   execSync('git commit -am "merge ' + curBranch + '"');
@@ -32,4 +46,5 @@ execSync('git checkout master');
 execSync('git pull');
 execSync('git checkout ' + dailyBranch);
 execSync('git pull');
-execSync('git merge ' + privateBranch);
+execSync('git merge ' + privateBranch, defaultOption);
+// execSync('git push -u origin ' + dailyBranch);
