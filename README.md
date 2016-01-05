@@ -1,5 +1,7 @@
 # git-sync
 
+**这个项目就是个辣鸡！**
+
 ## 安装方法
 ```
 npm install -g gitsynctodaily
