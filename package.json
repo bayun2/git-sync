@@ -1,5 +1,5 @@
 {
-  "name": "git-sync",
+  "name": "gitsynctodaily",
   "version": "1.0.0",
   "bin": {
     "gitsync": "./bin/gitsync"
