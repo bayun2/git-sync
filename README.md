@@ -10,12 +10,17 @@ npm install -g gitsynctodaily
 
 ## 使用方法
 
-安装好后初次使用
+在需要使用该模块的工程根目录加上一个配置文件`gitsync.conf.json`,文件内容如下：
 
 ```
-gitsync yourname 1.0.0
+{
+  "name": "rwt3",
+  "del": ["./build", "./src/seed.js"]
+}
+
 ```
-第一次使用，需要两个参数，第一个用来初始化个人分支名，后续使用不再需要。
+
+name表示个人本期分支名，del表示必然会冲突，不需要merge的文件（一b般是build文件，可以在命令执行完，结局冲突后，重新build一次）。
 
 ```
 gitsync 1.0.0
