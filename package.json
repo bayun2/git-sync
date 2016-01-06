@@ -2,7 +2,7 @@
   "name": "gitsynctodaily",
   "version": "1.0.1",
   "bin": {
-    "gsync": "./bin/gitsync"
+    "gitsync": "./bin/gitsync"
   },
   "description": "",
   "main": "index.js",
