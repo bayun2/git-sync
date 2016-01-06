@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 var execSync = require('child_process').execSync;
+var path = require('path');
+var fs = require('fs-extra');
 var argv = require('optimist').argv;
 var semver = require('semver');
 var cwd = process.cwd();
@@ -7,13 +9,35 @@ var defaultOption = {
   cwd: cwd,
   stdio: 'inherit'
 };
-var targetVersion = argv['_'][0];
+var firstArg = argv['_'][0];
+var HOME = process.env.HOME;
+var gsyncDir = path.join(HOME, '.gsync');
+var stat = fs.statSync(gsyncDir);
+var gsyncFile;
+var targetVersion;
+var privateName;
+if (!stat.isFlie) {
+  if (semver.valid(targetVersion)) {
+    console.error('第一个参数必须是你的名字，用来作为个人分支名')
+    return false;
+  }
+  fs.mkdirsSync(gsyncDir);
+  gsyncFile = path.join(gsyncDir, 'config.json');
+  fs.writeJsonSync(gsyncFile, '{name: '+ firstArg +'}', 'utf8');
+  privateName = firstArg;
+  targetVersion = argv['_'][1];
+} else {
+  gsyncFile = path.join(gsyncDir, 'config.json');
+  privateName = fs.readJsonSync(gsyncFile).name;
+  targetVersion = argv['_'][0];
+}
+
 if (!semver.valid(targetVersion)) {
   console.error('请输出daily版本号');
   process.exit(0);
 }
 var curBranch = execSync('git symbolic-ref HEAD').toString().trim().replace('refs/heads/','');
-var privateBranch = 'dev/rwt-' + targetVersion;
+var privateBranch = 'dev/' + privateName + '-' + targetVersion;
 var dailyBranch = 'daily/' + targetVersion;
 
 if (curBranch == privateBranch || curBranch == dailyBranch) {

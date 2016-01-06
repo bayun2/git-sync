@@ -11,7 +11,7 @@ npm install -g gitsynctodaily
 ## 使用方法
 
 ```
-gitsync 1.0.0
+gsync 1.0.0
 ```
 第一个参数必填，是需要发布的分支的版本号
 

@@ -2,7 +2,7 @@
   "name": "gitsynctodaily",
   "version": "1.0.1",
   "bin": {
-    "gitsync": "./bin/gitsync"
+    "gsync": "./bin/gitsync"
   },
   "description": "",
   "main": "index.js",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/bayun2/git-sync#readme",
   "dependencies": {
+    "fs-extra": "~0.26.3",
     "optimist": "~0.6.1",
     "semver": "~5.1.0"
   }
