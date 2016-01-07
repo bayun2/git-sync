@@ -21,6 +21,7 @@ npm install -g gitsynctodaily
 ```
 
 name表示个人本期分支名，del表示必然会冲突，不需要merge的文件（一b般是build文件，可以在命令执行完，结局冲突后，重新build一次）。
+ps:配置文件在加入工程的同时需要加入到`.gitignore`中。
 
 ```
 gitsync 1.0.0
