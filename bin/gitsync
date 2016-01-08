@@ -5,6 +5,7 @@ var fs = require('fs-extra');
 var argv = require('optimist').argv;
 var semver = require('semver');
 var color = require('colors');
+var checkoutbranch = require('../lib/checkoutbranch');
 var cwd = process.cwd();
 var HOME = process.env.HOME;
 var defaultOption = {
@@ -50,13 +51,8 @@ gsyncCfg.del.forEach(function(delDir) {
   execSync('rm -rf ' + delDir);
 })
 
-try {
-  execSync('git checkout ' + privateBranch);
-} catch(e) {
-  execSync('git checkout -b ' + privateBranch);
-  execSync('git push -u -f origin ' + privateBranch);
-}
-execSync('git pull');
+checkoutbranch(privateBranch);
+
 execSync('git merge ' + curBranch, defaultOption);
 execSync('git add .');
 try {
@@ -67,8 +63,9 @@ try {
 execSync('git push -u origin ' + privateBranch);
 execSync('git checkout master');
 execSync('git pull');
-execSync('git checkout ' + dailyBranch);
-execSync('git pull');
+
+checkoutbranch(dailyBranch);
+
 try {
   execSync('git merge ' + privateBranch, defaultOption);
 } catch (e) {
