@@ -20,7 +20,7 @@ npm install -g gitsynctodaily
 
 ```
 
-name表示个人本期分支名，del表示必然会冲突，不需要merge的文件（一b般是build文件，可以在命令执行完，结局冲突后，重新build一次）。
+name表示个人本期分支名，del表示必然会冲突，不需要merge的文件（一般是build文件，可以在命令执行完，结局冲突后，重新build一次）。
 ps:配置文件在加入工程的同时需要加入到`.gitignore`中
 
 ```
@@ -31,3 +31,8 @@ gitsync 1.0.0
 在本地`dev/需求分支`开发完以后,输入`gitsync x.x.x`,则会自动将dev/需求分支提交，并合并push到个人本期需求汇总分支，并将其与本期公用分支merge
 
 ps:同步过程中会删除build，所以个人本期需求汇总分支是没有build目录的
+
+通过如下方法可以显示当前daily版本有哪些个人分支:
+```
+gitsync x.x.x -s
+```

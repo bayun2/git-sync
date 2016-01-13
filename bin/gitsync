@@ -33,6 +33,27 @@ if (!semver.valid(targetVersion)) {
   process.exit(0);
 }
 
+var param = argv['s'];
+if (param) {
+    var allBranch = execSync('git branch -r').toString();
+    allBranch = allBranch.split('\n');
+    var targeBranch = allBranch.filter(function(branch) {
+        if (branch.indexOf(targetVersion) !== -1 && branch.indexOf('daily') === -1) {
+            return true;
+        }
+    })
+    var msg;
+    if (targeBranch.length) {
+        msg = '  版本' + targetVersion + '，远程有个人分支如下：';
+        console.log(msg.yellow)
+        console.log(targeBranch.join(''))
+    } else {
+        msg = '  版本' + targetVersion + '，不存在任何个人分支。'
+        console.log(msg.yellow)
+    }
+    process.exit(0);
+}
+
 var curBranch = execSync('git symbolic-ref HEAD').toString().trim().replace('refs/heads/','');
 var privateBranch = 'dev/' + privateName + '-' + targetVersion;
 var dailyBranch = 'daily/' + targetVersion;
