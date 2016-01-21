@@ -17,6 +17,12 @@ if (argv['_'].length == 0) {
   process.exit(0);
 }
 var firstArg = argv['_'][0];
+var gitignoreFile = path.join(cwd, '.gitignore');
+fs.ensureFileSync(gitignoreFile);
+var gitignoreContent = fs.readFileSync(gitignoreFile)
+if (gitignoreContent.indexOf('gitsync.conf.json') == -1) {
+  fs.writeFileSync(gitignoreFile, gitignoreContent + '\ngitsync.conf.json');
+}
 var gsyncFile = path.join(cwd, 'gitsync.conf.json');
 fs.ensureFileSync(gsyncFile);
 var gsyncCfg = fs.readJsonSync(gsyncFile, {throws: false});
